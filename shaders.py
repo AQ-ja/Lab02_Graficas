@@ -179,7 +179,7 @@ def textureBlend(render, **kwargs):
     b, g, r = kwargs['color']
     nA, nB, nC = kwargs['normals']
 
-    b/= 255
+    b/= 200
     g/= 255
     r/= 255
 
