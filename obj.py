@@ -1,3 +1,4 @@
+# Carga un archivo OBJ
 import struct
 
 def _color(r, g, b):

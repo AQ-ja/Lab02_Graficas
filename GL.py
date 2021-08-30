@@ -3,8 +3,8 @@ from collections import namedtuple
 
 from obj import Obj
 
-import MylibMath as Mlib
 import numpy as np
+import MylibMath as Mlib
 
 from numpy import sin, cos, tan
 
@@ -63,6 +63,8 @@ class Renderer(object):
 
         self.active_texture = None
         self.active_texture2 = None
+
+        self.normal_map = None
 
         self.active_shader = None
         self.directional_light = V3(0,0,-1)
@@ -127,7 +129,7 @@ class Renderer(object):
         self.pixels = [[ self.clear_color for y in range(self.height)]
                          for x in range(self.width)]
 
-        self.zbuffer = [[ float('inf')for y in range(self.height)]
+        self.zbuffer = [[ float('inf') for y in range(self.height)]
                           for x in range(self.width)]
 
 
@@ -252,14 +254,7 @@ class Renderer(object):
         maxY = round(max(A.y, B.y, C.y))
 
         triangleNormal = Mlib.cross(Mlib.sub(verts[1],verts[0]), Mlib.sub(verts[2],verts[0]))
-
-
-
-        # OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         triangleNormal = triangleNormal / np.linalg.norm(triangleNormal)
-        # OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-
-
 
         for x in range(minX, maxX + 1):
             for y in range(minY, maxY + 1):
@@ -391,10 +386,10 @@ class Renderer(object):
 
 
     def glProjectionMatrix(self, n = 0.1, f = 1000, fov = 60 ):
-        t = tan((fov * 22/7 / 180) / 2) * n
+        t = tan((fov * 3.1416 / 180) / 2) * n
         r = t * self.vpWidth / self.vpHeight
 
-        self.projectionMatrix = Mlib.Matrix([[n/r, 0, 0, 0],
+        self.projectionMatrix = np.matrix([[n/r, 0, 0, 0],
                                            [0, n/t, 0, 0],
                                            [0, 0, -(f+n)/(f-n), -(2*f*n)/(f-n)],
                                            [0, 0, -1, 0]])
